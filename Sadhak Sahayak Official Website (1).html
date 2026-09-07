@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Sadhak Sahayak - Digital Companion for Naam Jap & Spiritual Practice</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" id="meta-description" content="Sadhak Sahayak is a modern, devotional Android application designed to track Naam Jap, Mala counts, streaks, and ranks offline and online seamlessly.">
+    <meta name="keywords" content="Naam Jap counter, Mala counter, 108 Jap, Mantra Chanting App, Sadhak Sahayak, Spiritual Progress, Chanting Tracker">
+    <meta name="author" content="Hitesh (Betul)">
+    <link rel="canonical" href="https://sadhaksahayak.infinityfreeapp.com">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sadhaksahayak.infinityfreeapp.com">
+    <meta property="og:title" content="Sadhak Sahayak - Naam Jap Companion">
+    <meta property="og:description" content="Track your daily Naam Jap, Malas, and spiritual streaks with Sadhak Sahayak Android App.">
+    <meta property="og:image" content="c9021ac3-a610-4ed5-a6e5-d02ab3e7aa2e.jpeg">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sadhak: {
+                            bg: '#FAF7F2',          // Main warm off-white / light cream
+                            bgAlt: '#F4EFEA',       // Soft sand cream
+                            surface: '#FFFFFF',     // Clean white cards
+                            cardBorder: '#E8E1D7', // Soft warm border
+                            pill: '#F2ECE4',        // Warm beige pill container
+                            textDark: '#2D2621',    // Deep warm charcoal brown for headings
+                            textMuted: '#7A6E65',   // Muted warm sand text
+                            gold: '#B88E4C',        // Golden Mala bead color from logo
+                            goldLight: '#F2E3C6',   // Soft light gold accent
+                            goldDark: '#8C6830',    // Deep bronze/gold
+                            bronze: '#B88A58',      // Bronze Rank badge tone
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Rozha+One&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF7F2;
+            color: #2D2621;
+        }
+
+        .devotional-font {
+            font-family: 'Rozha One', serif;
+        }
+
+        .glow-cream {
+            box-shadow: 0 10px 30px -5px rgba(184, 142, 76, 0.12);
+        }
+
+        .gradient-gold-text {
+            background: linear-gradient(135deg, #B88E4C 0%, #8C6830 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .app-card {
+            background: #FFFFFF;
+            border: 1px solid #E8E1D7;
+            box-shadow: 0 4px 20px -2px rgba(122, 110, 101, 0.05);
+        }
+
+        .app-card-sand {
+            background: #F4EFEA;
+            border: 1px solid #E5DDD2;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-sadhak-goldLight selection:text-sadhak-textDark">
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 bg-sadhak-bg/90 backdrop-blur-md border-b border-sadhak-cardBorder">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & Brand Name (Mala Logo Representation) -->
+                <a href="#home" onclick="navigateTo('home')" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-2xl bg-sadhak-goldLight border border-sadhak-cardBorder p-1 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
+                        <!-- Mala SVG Logo derived from c9021ac3-a610-4ed5-a6e5-d02ab3e7aa2e.jpeg -->
+                        <svg viewBox="0 0 100 100" class="w-full h-full text-sadhak-gold fill-current">
+                            <circle cx="50" cy="50" r="38" fill="none" stroke="#B88E4C" stroke-width="4" stroke-dasharray="1 7" stroke-linecap="round"/>
+                            <circle cx="50" cy="50" r="30" fill="none" stroke="#B88E4C" stroke-width="3"/>
+                            <circle cx="50" cy="80" r="6" fill="#B88E4C"/>
+                            <polygon points="50,86 46,96 54,96" fill="#B88E4C"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold tracking-tight text-sadhak-textDark block leading-none">Sadhak Sahayak</span>
+                        <span class="text-[10px] text-sadhak-gold font-bold tracking-wider uppercase">Naam Jap Companion</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-1 xl:space-x-2">
+                    <button onclick="navigateTo('home')" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold text-sadhak-textMuted hover:text-sadhak-textDark hover:bg-sadhak-pill transition">Home</button>
+                    <button onclick="navigateTo('about')" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold text-sadhak-textMuted hover:text-sadhak-textDark hover:bg-sadhak-pill transition">About App</button>
+                    <button onclick="navigateTo('features')" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold text-sadhak-textMuted hover:text-sadhak-textDark hover:bg-sadhak-pill transition">Features</button>
+                    <button onclick="navigateTo('how-it-works')" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold text-sadhak-textMuted hover:text-sadhak-textDark hover:bg-sadhak-pill transition">How It Works</button>
+                    <button onclick="navigateTo('about-us')" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold text-sadhak-textMuted hover:text-sadhak-textDark hover:bg-sadhak-pill transition">About Creator</button>
+                    <button onclick="navigateTo('faq')" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold text-sadhak-textMuted hover:text-sadhak-textDark hover:bg-sadhak-pill transition">FAQ</button>
+                    <button onclick="navigateTo('contact')" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold text-sadhak-textMuted hover:text-sadhak-textDark hover:bg-sadhak-pill transition">Contact</button>
+                </nav>
+
+                <!-- Desktop CTA -->
+                <div class="hidden lg:flex items-center gap-3">
+                    <button onclick="navigateTo('download')" class="px-5 py-2.5 rounded-xl font-bold text-sm bg-sadhak-textDark text-sadhak-bg hover:bg-sadhak-gold transition shadow-md flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span>Download App</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2.5 rounded-xl text-sadhak-textDark hover:bg-sadhak-pill focus:outline-none" aria-label="Toggle Navigation">
+                        <i data-lucide="menu" id="menu-icon-open" class="w-6 h-6"></i>
+                        <i data-lucide="x" id="menu-icon-close" class="w-6 h-6 hidden"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-menu" class="hidden lg:hidden border-b border-sadhak-cardBorder bg-sadhak-bg px-4 pt-2 pb-6 space-y-2">
+            <button onclick="navigateTo('home'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-sadhak-textDark hover:bg-sadhak-pill">Home</button>
+            <button onclick="navigateTo('about'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-sadhak-textDark hover:bg-sadhak-pill">About Sadhak Sahayak</button>
+            <button onclick="navigateTo('features'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-sadhak-textDark hover:bg-sadhak-pill">Features</button>
+            <button onclick="navigateTo('how-it-works'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-sadhak-textDark hover:bg-sadhak-pill">How It Works</button>
+            <button onclick="navigateTo('about-us'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-sadhak-textDark hover:bg-sadhak-pill">About Us / Creator</button>
+            <button onclick="navigateTo('faq'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-sadhak-textDark hover:bg-sadhak-pill">FAQ</button>
+            <button onclick="navigateTo('feedback'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-sadhak-textDark hover:bg-sadhak-pill">Feedback</button>
+            <button onclick="navigateTo('contact'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-sadhak-textDark hover:bg-sadhak-pill">Contact Us</button>
+            <button onclick="navigateTo('privacy-policy'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-sadhak-textMuted hover:bg-sadhak-pill">Privacy Policy</button>
+            <button onclick="navigateTo('terms'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-sadhak-textMuted hover:bg-sadhak-pill">Terms & Conditions</button>
+            <div class="pt-2">
+                <button onclick="navigateTo('download'); toggleMobileMenu()" class="w-full py-3.5 rounded-xl font-bold text-center bg-sadhak-textDark text-sadhak-bg shadow-md flex items-center justify-center gap-2">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                    <span>Download APK Now</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA FOR SPA ROUTING -->
+    <main id="app-content" class="flex-grow">
+        <!-- Dynamic Views Will Be Rendered Here via JS -->
+    </main>
+
+    <!-- Unified Footer -->
+    <footer class="bg-sadhak-bgAlt border-t border-sadhak-cardBorder pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+                
+                <!-- Brand Info -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-sadhak-goldLight border border-sadhak-cardBorder p-1 flex items-center justify-center">
+                            <svg viewBox="0 0 100 100" class="w-full h-full text-sadhak-gold fill-current">
+                                <circle cx="50" cy="50" r="38" fill="none" stroke="#B88E4C" stroke-width="4" stroke-dasharray="1 7" stroke-linecap="round"/>
+                                <circle cx="50" cy="50" r="30" fill="none" stroke="#B88E4C" stroke-width="3"/>
+                                <circle cx="50" cy="80" r="6" fill="#B88E4C"/>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold text-sadhak-textDark">Sadhak Sahayak</span>
+                    </div>
+                    <p class="text-sadhak-textMuted text-sm leading-relaxed max-w-sm">
+                        A modern, spiritual Android companion helping devotees maintain discipline, track Naam Jap, calculate Malas, and foster lifelong chanting consistency.
+                    </p>
+                    <div class="pt-2">
+                        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sadhak-surface border border-sadhak-cardBorder text-xs text-sadhak-textDark font-semibold">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            Offline-First Architecture
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Navigation Quick Links -->
+                <div>
+                    <h4 class="text-sadhak-textDark font-bold text-xs tracking-wider uppercase mb-4">Navigation</h4>
+                    <ul class="space-y-2.5 text-sm font-medium">
+                        <li><button onclick="navigateTo('home')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">Home</button></li>
+                        <li><button onclick="navigateTo('about')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">About Sadhak Sahayak</button></li>
+                        <li><button onclick="navigateTo('features')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">App Features</button></li>
+                        <li><button onclick="navigateTo('how-it-works')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">How It Works</button></li>
+                        <li><button onclick="navigateTo('about-us')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">Creator Story</button></li>
+                    </ul>
+                </div>
+
+                <!-- Support & Download -->
+                <div>
+                    <h4 class="text-sadhak-textDark font-bold text-xs tracking-wider uppercase mb-4">Support & Downloads</h4>
+                    <ul class="space-y-2.5 text-sm font-medium">
+                        <li><button onclick="navigateTo('download')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">Download APK</button></li>
+                        <li><button onclick="navigateTo('faq')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">Frequently Asked Questions</button></li>
+                        <li><button onclick="navigateTo('feedback')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">Submit Feedback</button></li>
+                        <li><button onclick="navigateTo('contact')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">Contact Support</button></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Policies -->
+                <div>
+                    <h4 class="text-sadhak-textDark font-bold text-xs tracking-wider uppercase mb-4">Legal & Trust</h4>
+                    <ul class="space-y-2.5 text-sm font-medium">
+                        <li><button onclick="navigateTo('privacy-policy')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">Privacy Policy</button></li>
+                        <li><button onclick="navigateTo('terms')" class="text-sadhak-textMuted hover:text-sadhak-textDark transition">Terms & Conditions</button></li>
+                        <li class="pt-2 text-xs text-sadhak-textMuted">
+                            Support: <br>
+                            <span class="text-sadhak-textDark font-mono font-bold dynamic-email">[CONTACT_EMAIL]</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright -->
+            <div class="pt-8 border-t border-sadhak-cardBorder flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-sadhak-textMuted">
+                <p>&copy; <span id="current-year"></span> Sadhak Sahayak. Developed by Hitesh (Betul).</p>
+                <p class="text-center md:text-right">
+                    Designed with beige, cream, and white aesthetics matching the Android app.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CENTRAL CONFIGURATION SCRIPT -->
+    <script>
+        const CONFIG = {
+            APP_NAME: "Sadhak Sahayak",
+            TAGLINE: "Your Digital Companion for Consistent Naam Jap Practice",
+            CANONICAL_URL: "https://sadhaksahayak.infinityfreeapp.com",
+            
+            // App Distribution URLs
+            APK_DOWNLOAD_URL: "https://sadhaksahayak.infinityfreeapp.com/downloads/sadhak-sahayak-latest.apk",
+            GOOGLE_PLAY_URL: "", 
+            GOOGLE_FORM_URL: "https://docs.google.com/forms/d/e/1FAIpQLSc_EXAMPLE_FORM_ID/viewform",
+            
+            // Contact & Support
+            CONTACT_EMAIL: "support@sadhaksahayak.app",
+            PRIVACY_EMAIL: "privacy@sadhaksahayak.app",
+            LAST_UPDATED_POLICIES: "September 06, 2026",
+            
+            // App Build Information
+            APP_VERSION: "v1.2.0-beta",
+            APK_FILE_SIZE: "14.5 MB",
+            MIN_ANDROID_VERSION: "Android 7.0 (Nougat, API 24) or higher",
+            
+            // Creator Information from App Screenshot (Hitesh, Betul)
+            CREATOR_NAME: "Hitesh",
+            CREATOR_LOCATION: "Betul",
+            CREATOR_PHOTO: "assets/creator/hitesh.jpg",
+            CREATOR_BIO: "Independent Android Developer & Creator of Sadhak Sahayak based in Betul.",
+            MY_STORY: "Sadhak Sahayak was created out of a desire to build a clean, peaceful, offline-first digital companion for Naam Jap that honors traditional Sadhana without commercial distractions.",
+            PROJECT_VISION: "To support every sadhak with a serene, accurate tool to track 108 Mala goals, daily counts, weekly consistency, and spiritual growth."
+        };
+    </script>
+
+    <!-- CORE SPA ROUTER & VIEW GENERATOR SCRIPT -->
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-icon-open');
+            const closeIcon = document.getElementById('menu-icon-close');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                openIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+                openIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        const routes = {
+            'home': renderHomeView,
+            'about': renderAboutAppView,
+            'features': renderFeaturesView,
+            'how-it-works': renderHowItWorksView,
+            'about-us': renderAboutCreatorView,
+            'privacy-policy': renderPrivacyView,
+            'terms': renderTermsView,
+            'feedback': renderFeedbackView,
+            'contact': renderContactView,
+            'faq': renderFaqView,
+            'download': renderDownloadView
+        };
+
+        function navigateTo(route) {
+            const targetRoute = routes[route] ? route : 'home';
+            window.location.hash = targetRoute;
+            renderRoute(targetRoute);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderRoute(routeName) {
+            const container = document.getElementById('app-content');
+            const renderer = routes[routeName] || routes['home'];
+            container.innerHTML = renderer();
+            
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            document.querySelectorAll('.dynamic-email').forEach(el => {
+                el.textContent = CONFIG.CONTACT_EMAIL;
+            });
+            document.querySelectorAll('.dynamic-privacy-email').forEach(el => {
+                el.textContent = CONFIG.PRIVACY_EMAIL;
+            });
+        }
+
+        window.addEventListener('hashchange', () => {
+            const route = window.location.hash.replace('#', '');
+            renderRoute(route);
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const initialRoute = window.location.hash.replace('#', '') || 'home';
+            renderRoute(initialRoute);
+        });
+
+        /* ==========================================================================
+           VIEWS GENERATOR FUNCTIONS
+           ========================================================================== */
+
+        // 1. HOME VIEW
+        function renderHomeView() {
+            return `
+                <!-- Hero Section -->
+                <section class="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-28">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                            
+                            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sadhak-pill border border-sadhak-cardBorder text-sadhak-goldDark text-xs font-bold tracking-wide">
+                                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sadhak-gold"></i>
+                                    <span>Devotional • Modern • Offline-First</span>
+                                </div>
+                                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-sadhak-textDark leading-tight">
+                                    Digital Companion for <span class="gradient-gold-text">Naam Jap</span> Practice
+                                </h1>
+                                <p class="text-lg text-sadhak-textMuted font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                                    Tap to count Jap, complete 108 Mala cycles, maintain weekly consistency, and track your Sadhana progress with Sadhak Sahayak.
+                                </p>
+                                
+                                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                                    <button onclick="navigateTo('download')" class="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base bg-sadhak-textDark text-sadhak-bg hover:bg-sadhak-gold transition shadow-lg flex items-center justify-center gap-3">
+                                        <i data-lucide="download" class="w-5 h-5"></i>
+                                        <span>Download Android App</span>
+                                    </button>
+                                    <button onclick="navigateTo('features')" class="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base bg-sadhak-surface hover:bg-sadhak-pill text-sadhak-textDark border border-sadhak-cardBorder transition flex items-center justify-center gap-2">
+                                        <span>Explore Features</span>
+                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+
+                                <div class="pt-6 flex items-center justify-center lg:justify-start gap-6 text-xs font-semibold text-sadhak-textMuted border-t border-sadhak-cardBorder">
+                                    <span class="flex items-center gap-1.5"><i data-lucide="wifi-off" class="w-4 h-4 text-sadhak-gold"></i> 100% Offline Capable</span>
+                                    <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i> Local & Cloud Sync</span>
+                                    <span class="flex items-center gap-1.5"><i data-lucide="award" class="w-4 h-4 text-sadhak-gold"></i> Rank Progression</span>
+                                </div>
+                            </div>
+
+                            <!-- Mobile Screen Replica Matching Screenshot (1000084552.jpg) -->
+                            <div class="lg:col-span-5 flex justify-center">
+                                <div class="relative w-full max-w-sm">
+                                    <div class="rounded-[36px] bg-sadhak-surface border-4 border-sadhak-cardBorder p-5 shadow-xl space-y-5">
+                                        
+                                        <!-- App Bar -->
+                                        <div class="flex items-center justify-between pb-2 border-b border-sadhak-cardBorder">
+                                            <div class="flex items-center gap-2.5">
+                                                <div class="w-9 h-9 rounded-full bg-sadhak-textDark text-sadhak-bg flex items-center justify-center font-bold text-xs">H</div>
+                                                <div>
+                                                    <span class="font-bold text-xs text-sadhak-textDark block leading-none">Sadhak Sahayak</span>
+                                                    <span class="text-[10px] text-sadhak-textMuted">hitesh • Betul</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <div class="w-8 h-8 rounded-full bg-sadhak-pill flex items-center justify-center text-sadhak-textDark text-xs"><i data-lucide="calculator" class="w-4 h-4"></i></div>
+                                                <div class="w-8 h-8 rounded-full bg-sadhak-pill flex items-center justify-center text-sadhak-textDark text-xs"><i data-lucide="settings" class="w-4 h-4"></i></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Today Summary Pill -->
+                                        <div class="bg-sadhak-bg rounded-2xl p-4 border border-sadhak-cardBorder grid grid-cols-2 text-center divide-x divide-sadhak-cardBorder">
+                                            <div>
+                                                <span class="text-[10px] font-bold uppercase tracking-wider text-sadhak-textMuted block">TODAY JAP</span>
+                                                <span class="text-2xl font-extrabold text-sadhak-textDark">1</span>
+                                            </div>
+                                            <div>
+                                                <span class="text-[10px] font-bold uppercase tracking-wider text-sadhak-textMuted block">TODAY MALA</span>
+                                                <span class="text-2xl font-extrabold text-sadhak-textDark">0</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Circular Mala Ring Counter -->
+                                        <div class="py-4 text-center relative flex flex-col items-center justify-center">
+                                            <div class="w-48 h-48 rounded-full border-8 border-sadhak-pill border-t-sadhak-gold flex flex-col items-center justify-center bg-sadhak-surface shadow-inner relative">
+                                                <span class="text-[10px] font-bold uppercase tracking-wider text-sadhak-textMuted">MALA BEAD</span>
+                                                <span class="text-4xl font-extrabold text-sadhak-textDark my-0.5">1</span>
+                                                <span class="text-[11px] text-sadhak-textMuted font-medium">of 108 beads</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tap Anywhere Indicator Pill -->
+                                        <div class="p-3.5 rounded-2xl bg-sadhak-pill text-center border border-sadhak-cardBorder text-xs text-sadhak-textDark font-medium flex items-center justify-center gap-2">
+                                            <i data-lucide="touch-pad" class="w-4 h-4 text-sadhak-gold"></i>
+                                            <span>Tap anywhere on screen to count</span>
+                                        </div>
+
+                                        <!-- Quick Action Controls -->
+                                        <div class="flex gap-2 text-[11px] font-semibold text-sadhak-textDark">
+                                            <span class="px-3 py-2 rounded-xl bg-sadhak-surface border border-sadhak-cardBorder flex items-center gap-1"><i data-lucide="layers" class="w-3.5 h-3.5"></i> Floating</span>
+                                            <span class="px-3 py-2 rounded-xl bg-sadhak-surface border border-sadhak-cardBorder flex items-center gap-1"><i data-lucide="eye-off" class="w-3.5 h-3.5"></i> Peek-Proof</span>
+                                            <span class="px-3 py-2 rounded-xl bg-sadhak-surface border border-sadhak-cardBorder flex items-center gap-1"><i data-lucide="mic" class="w-3.5 h-3.5"></i> Voice</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Profile & Sadhana Stats Replica Section (Matching Screenshot 1000084554.jpg) -->
+                <section class="py-16 bg-sadhak-bgAlt border-y border-sadhak-cardBorder">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center max-w-2xl mx-auto mb-12">
+                            <span class="text-xs font-bold uppercase tracking-widest text-sadhak-gold">In-App Sadhana Analytics</span>
+                            <h2 class="text-3xl font-bold text-sadhak-textDark">Complete Progress Overview</h2>
+                            <p class="text-sadhak-textMuted text-sm mt-1">Track goals, weekly consistency, and lifetime Malas effortlessly.</p>
+                        </div>
+
+                        <div class="max-w-3xl mx-auto space-y-6">
+                            
+                            <!-- Profile Header Card Replica -->
+                            <div class="app-card p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-6">
+                                <div class="flex items-center gap-4 text-center sm:text-left">
+                                    <div class="w-16 h-16 rounded-full bg-sadhak-textDark text-sadhak-bg font-bold text-2xl flex items-center justify-center border-2 border-sadhak-gold">
+                                        H
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-sadhak-textDark">hitesh</h3>
+                                        <span class="text-xs text-sadhak-textMuted flex items-center justify-center sm:justify-start gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-sadhak-gold"></i> Betul</span>
+                                    </div>
+                                </div>
+                                <div class="px-5 py-2.5 rounded-2xl bg-sadhak-pill border border-sadhak-cardBorder text-center">
+                                    <span class="block text-[10px] font-bold tracking-wider text-sadhak-bronze uppercase">BRONZE II</span>
+                                    <span class="text-xs font-bold text-sadhak-textDark">Rank Badge</span>
+                                </div>
+                            </div>
+
+                            <!-- Today's Goal Progress -->
+                            <div class="app-card p-6 rounded-3xl space-y-3">
+                                <div class="flex justify-between items-center text-sm font-bold">
+                                    <span class="text-sadhak-textDark">Today's Goal Progress</span>
+                                    <span class="text-sadhak-textMuted">0 / 11 Malas</span>
+                                </div>
+                                <div class="w-full bg-sadhak-pill h-3 rounded-full overflow-hidden border border-sadhak-cardBorder">
+                                    <div class="bg-sadhak-gold h-full w-[5%] rounded-full"></div>
+                                </div>
+                            </div>
+
+                            <!-- Sadhana Stats Grid -->
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                <div class="app-card p-4 rounded-2xl space-y-1">
+                                    <span class="text-[10px] font-bold text-sadhak-textMuted uppercase block">Today's Count</span>
+                                    <span class="text-xl font-extrabold text-sadhak-textDark">1</span>
+                                    <span class="text-[10px] text-sadhak-textMuted block">0 Malas</span>
+                                </div>
+                                <div class="app-card p-4 rounded-2xl space-y-1">
+                                    <span class="text-[10px] font-bold text-sadhak-textMuted uppercase block">This Week</span>
+                                    <span class="text-xl font-extrabold text-sadhak-textDark">8,410</span>
+                                    <span class="text-[10px] text-sadhak-textMuted block">77 Malas</span>
+                                </div>
+                                <div class="app-card p-4 rounded-2xl space-y-1">
+                                    <span class="text-[10px] font-bold text-sadhak-textMuted uppercase block">This Month</span>
+                                    <span class="text-xl font-extrabold text-sadhak-textDark">8,410</span>
+                                    <span class="text-[10px] text-sadhak-textMuted block">77 Malas</span>
+                                </div>
+                                <div class="app-card p-4 rounded-2xl space-y-1">
+                                    <span class="text-[10px] font-bold text-sadhak-textMuted uppercase block">All Time</span>
+                                    <span class="text-xl font-extrabold text-sadhak-textDark">8,410</span>
+                                    <span class="text-[10px] text-sadhak-textMuted block">77 Malas</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Rank Progression System Preview -->
+                <section class="py-20">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+                            <span class="text-xs font-bold uppercase tracking-widest text-sadhak-gold">Rank Progression</span>
+                            <h2 class="text-3xl font-bold text-sadhak-textDark">Spiritual Milestones & Badges</h2>
+                            <p class="text-sadhak-textMuted text-sm">Earn rank promotions as your lifetime chanting commitment grows.</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 text-center">
+                            
+                            <div class="p-4 rounded-2xl bg-sadhak-surface border border-sadhak-cardBorder shadow-sm">
+                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-sadhak-pill flex items-center justify-center text-sadhak-bronze font-bold text-xs border border-sadhak-cardBorder">BRONZE</div>
+                                <h4 class="text-sm font-bold text-sadhak-textDark">Bronze</h4>
+                                <span class="text-[11px] text-sadhak-textMuted">Starter Tier</span>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-sadhak-surface border border-sadhak-cardBorder shadow-sm">
+                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-xs border border-slate-200">SILVER</div>
+                                <h4 class="text-sm font-bold text-sadhak-textDark">Silver</h4>
+                                <span class="text-[11px] text-sadhak-textMuted">Consistency</span>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-sadhak-surface border border-sadhak-cardBorder shadow-sm">
+                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-50 flex items-center justify-center text-sadhak-gold font-bold text-xs border border-amber-200">GOLD</div>
+                                <h4 class="text-sm font-bold text-sadhak-textDark">Gold</h4>
+                                <span class="text-[11px] text-sadhak-textMuted">Dedicated</span>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-sadhak-surface border border-sadhak-cardBorder shadow-sm">
+                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-cyan-50 flex items-center justify-center text-cyan-700 font-bold text-xs border border-cyan-200">PLATINUM</div>
+                                <h4 class="text-sm font-bold text-sadhak-textDark">Platinum</h4>
+                                <span class="text-[11px] text-sadhak-textMuted">Deep Practice</span>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-sadhak-surface border border-sadhak-cardBorder shadow-sm">
+                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-blue-50 flex items-center justify-center text-blue-700 font-bold text-xs border border-blue-200">DIAMOND</div>
+                                <h4 class="text-sm font-bold text-sadhak-textDark">Diamond</h4>
+                                <span class="text-[11px] text-sadhak-textMuted">Advanced</span>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-sadhak-surface border border-sadhak-cardBorder shadow-sm">
+                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-50 flex items-center justify-center text-purple-700 font-bold text-xs border border-purple-200">MASTER</div>
+                                <h4 class="text-sm font-bold text-sadhak-textDark">Master</h4>
+                                <span class="text-[11px] text-sadhak-textMuted">Exemplary</span>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-sadhak-surface border-2 border-sadhak-gold shadow-md col-span-2 sm:col-span-1">
+                                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-sadhak-gold text-sadhak-bg flex items-center justify-center font-black text-xs">ELITE</div>
+                                <h4 class="text-sm font-bold text-sadhak-goldDark">Elite</h4>
+                                <span class="text-[11px] text-sadhak-textMuted">Pinnacle</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Download Call To Action -->
+                <section class="py-16 bg-sadhak-bgAlt border-t border-sadhak-cardBorder">
+                    <div class="max-w-4xl mx-auto px-4 text-center space-y-6">
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-sadhak-textDark">Start Your Daily Devotional Practice</h2>
+                        <p class="text-sadhak-textMuted text-base max-w-xl mx-auto">
+                            Download Sadhak Sahayak and experience a peaceful, cream and white distraction-free environment for your Naam Jap.
+                        </p>
+                        <div class="pt-2 flex justify-center">
+                            <button onclick="navigateTo('download')" class="px-8 py-4 rounded-2xl font-bold text-base bg-sadhak-textDark text-sadhak-bg hover:bg-sadhak-gold transition shadow-lg flex items-center gap-3">
+                                <i data-lucide="download" class="w-5 h-5"></i>
+                                <span>Get Sadhak Sahayak APK</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        // 2. ABOUT SADHAK SAHAYAK PAGE
+        function renderAboutAppView() {
+            return `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
+                    <div class="border-b border-sadhak-cardBorder pb-6 space-y-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-sadhak-gold">About The App</span>
+                        <h1 class="text-3xl sm:text-4xl font-bold text-sadhak-textDark">What is Sadhak Sahayak?</h1>
+                    </div>
+
+                    <div class="space-y-6 text-sadhak-textMuted leading-relaxed">
+                        <p>
+                            <strong>Sadhak Sahayak</strong> is a dedicated Android application built to support sadhaks in maintaining daily Naam Jap and mantra chanting discipline.
+                        </p>
+                        
+                        <h3 class="text-xl font-bold text-sadhak-textDark pt-2">The Purpose & Vision</h3>
+                        <p>
+                            Counting Jap using physical beads is a timeless tradition. Sadhak Sahayak acts as a quiet digital companion—providing tap counting, automated Mala alerts at 108 repetitions, and Sadhana stats over weeks and months without commercial ads.
+                        </p>
+
+                        <h3 class="text-xl font-bold text-sadhak-textDark pt-2">Modern Cream & Beige Aesthetic</h3>
+                        <p>
+                            The interface uses serene off-white, beige, and cream tones designed to protect visual comfort during long daily chanting sessions.
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 3. FEATURES PAGE
+        function renderFeaturesView() {
+            return `
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
+                    <div class="text-center space-y-3">
+                        <h1 class="text-3xl sm:text-4xl font-bold text-sadhak-textDark">Application Features</h1>
+                        <p class="text-sadhak-textMuted text-sm max-w-xl mx-auto">Designed specifically for Naam Jap practice with offline capability.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <div class="app-card p-6 rounded-3xl space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 rounded-2xl bg-sadhak-pill text-sadhak-gold"><i data-lucide="touch-pad" class="w-6 h-6"></i></div>
+                                <h3 class="text-lg font-bold text-sadhak-textDark">Naam Jap Tap Counter</h3>
+                            </div>
+                            <p class="text-sadhak-textMuted text-sm leading-relaxed">Large touch surface allowing effortless tap counting during active chanting sessions.</p>
+                        </div>
+
+                        <div class="app-card p-6 rounded-3xl space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 rounded-2xl bg-sadhak-pill text-sadhak-gold"><i data-lucide="rotate-ccw" class="w-6 h-6"></i></div>
+                                <h3 class="text-lg font-bold text-sadhak-textDark">Automated Mala Tracking</h3>
+                            </div>
+                            <p class="text-sadhak-textMuted text-sm leading-relaxed">Every 108 repetitions automatically complete 1 Mala, keeping total records cleanly.</p>
+                        </div>
+
+                        <div class="app-card p-6 rounded-3xl space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 rounded-2xl bg-sadhak-pill text-sadhak-gold"><i data-lucide="line-chart" class="w-6 h-6"></i></div>
+                                <h3 class="text-lg font-bold text-sadhak-textDark">Sadhana Stats Overview</h3>
+                            </div>
+                            <p class="text-sadhak-textMuted text-sm leading-relaxed">View daily, weekly, monthly, and all-time total Jap counts and completed Malas.</p>
+                        </div>
+
+                        <div class="app-card p-6 rounded-3xl space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 rounded-2xl bg-sadhak-pill text-sadhak-gold"><i data-lucide="award" class="w-6 h-6"></i></div>
+                                <h3 class="text-lg font-bold text-sadhak-textDark">Rank & Badges System</h3>
+                            </div>
+                            <p class="text-sadhak-textMuted text-sm leading-relaxed">Advance from Bronze to Elite as your cumulative Sadhana commitment grows.</p>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+        }
+
+        // 4. HOW IT WORKS PAGE
+        function renderHowItWorksView() {
+            return `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
+                    <div class="text-center space-y-3">
+                        <h1 class="text-3xl sm:text-4xl font-bold text-sadhak-textDark">How Sadhak Sahayak Works</h1>
+                        <p class="text-sadhak-textMuted text-sm">Simple steps to track your daily Naam Jap practice.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="p-6 rounded-3xl app-card flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-2xl bg-sadhak-pill font-bold text-sadhak-textDark flex items-center justify-center flex-shrink-0">1</div>
+                            <div class="space-y-1">
+                                <h3 class="text-base font-bold text-sadhak-textDark">Download & Setup Profile</h3>
+                                <p class="text-sadhak-textMuted text-sm">Install the app, set up your profile name and district details.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-6 rounded-3xl app-card flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-2xl bg-sadhak-pill font-bold text-sadhak-textDark flex items-center justify-center flex-shrink-0">2</div>
+                            <div class="space-y-1">
+                                <h3 class="text-base font-bold text-sadhak-textDark">Tap To Count 108 Beads</h3>
+                                <p class="text-sadhak-textMuted text-sm">Tap anywhere on screen during your Jap practice. The circular Mala counter tracks progress up to 108.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-6 rounded-3xl app-card flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-2xl bg-sadhak-pill font-bold text-sadhak-textDark flex items-center justify-center flex-shrink-0">3</div>
+                            <div class="space-y-1">
+                                <h3 class="text-base font-bold text-sadhak-textDark">Review Sadhana Stats</h3>
+                                <p class="text-sadhak-textMuted text-sm">Monitor daily goals, weekly consistency charts, and unlock rank promotions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 5. ABOUT CREATOR PAGE (Hitesh - Betul)
+        function renderAboutCreatorView() {
+            return `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
+                    <div class="text-center space-y-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-sadhak-gold">Behind The Project</span>
+                        <h1 class="text-3xl sm:text-4xl font-bold text-sadhak-textDark">About The Creator</h1>
+                    </div>
+
+                    <div class="p-8 rounded-3xl app-card space-y-8">
+                        <div class="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+                            <div class="w-24 h-24 rounded-full bg-sadhak-textDark text-sadhak-bg text-3xl font-bold flex items-center justify-center border-4 border-sadhak-gold">
+                                H
+                            </div>
+                            <div class="space-y-1">
+                                <h2 class="text-2xl font-bold text-sadhak-textDark">${CONFIG.CREATOR_NAME}</h2>
+                                <p class="text-sadhak-gold font-semibold text-sm flex items-center justify-center sm:justify-start gap-1">
+                                    <i data-lucide="map-pin" class="w-4 h-4"></i> ${CONFIG.CREATOR_LOCATION}
+                                </p>
+                                <p class="text-sadhak-textMuted text-xs pt-1">${CONFIG.CREATOR_BIO}</p>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-sadhak-cardBorder pt-6 space-y-4 text-sadhak-textMuted text-sm leading-relaxed">
+                            <h3 class="text-base font-bold text-sadhak-textDark">Project Story & Vision</h3>
+                            <p>${CONFIG.MY_STORY}</p>
+                            <p>${CONFIG.PROJECT_VISION}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 6. PRIVACY POLICY PAGE
+        function renderPrivacyView() {
+            return `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8 text-sadhak-textMuted">
+                    <div class="border-b border-sadhak-cardBorder pb-6 space-y-2">
+                        <h1 class="text-3xl font-bold text-sadhak-textDark">Privacy Policy</h1>
+                        <p class="text-xs">Last Updated: ${CONFIG.LAST_UPDATED_POLICIES}</p>
+                    </div>
+
+                    <div class="space-y-6 text-sm leading-relaxed">
+                        <p>This Privacy Policy describes how <strong>Sadhak Sahayak</strong> handles information collected through our Android Application and official website.</p>
+
+                        <h3 class="text-lg font-bold text-sadhak-textDark">1. Local Storage Priority</h3>
+                        <p>Sadhak Sahayak is designed offline-first. Your Jap counts, daily goals, and Sadhana stats remain stored locally on your device.</p>
+
+                        <h3 class="text-lg font-bold text-sadhak-textDark">2. Contact</h3>
+                        <p>If you have privacy questions, email: <span class="text-sadhak-gold font-mono font-bold dynamic-privacy-email">[PRIVACY_EMAIL]</span>.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 7. TERMS & CONDITIONS
+        function renderTermsView() {
+            return `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8 text-sadhak-textMuted">
+                    <div class="border-b border-sadhak-cardBorder pb-6 space-y-2">
+                        <h1 class="text-3xl font-bold text-sadhak-textDark">Terms & Conditions</h1>
+                        <p class="text-xs">Last Updated: ${CONFIG.LAST_UPDATED_POLICIES}</p>
+                    </div>
+
+                    <div class="space-y-6 text-sm leading-relaxed">
+                        <p>By using Sadhak Sahayak, you agree to responsible, devotional usage of the application utilities.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 8. FEEDBACK PAGE
+        function renderFeedbackView() {
+            return `
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8 text-center">
+                    <div class="space-y-2">
+                        <h1 class="text-3xl font-bold text-sadhak-textDark">App Feedback</h1>
+                        <p class="text-sadhak-textMuted text-sm">Share your suggestions or bug reports with us.</p>
+                    </div>
+
+                    <div class="p-8 rounded-3xl app-card space-y-6">
+                        <a href="${CONFIG.GOOGLE_FORM_URL}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-bold bg-sadhak-textDark text-sadhak-bg hover:bg-sadhak-gold transition shadow-md">
+                            <span>Open Google Form</span>
+                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 9. CONTACT PAGE
+        function renderContactView() {
+            return `
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8 text-center">
+                    <div class="space-y-2">
+                        <h1 class="text-3xl font-bold text-sadhak-textDark">Contact Support</h1>
+                        <p class="text-sadhak-textMuted text-sm">Get in touch for support or app inquiries.</p>
+                    </div>
+
+                    <div class="p-8 rounded-3xl app-card space-y-3">
+                        <h3 class="text-base font-bold text-sadhak-textDark">Support Email</h3>
+                        <p class="text-sadhak-gold font-mono font-bold text-lg dynamic-email">[CONTACT_EMAIL]</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 10. FAQ PAGE
+        function renderFaqView() {
+            return `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8">
+                    <div class="text-center space-y-2">
+                        <h1 class="text-3xl font-bold text-sadhak-textDark">Frequently Asked Questions</h1>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="p-6 rounded-3xl app-card space-y-2">
+                            <h4 class="font-bold text-sadhak-textDark">Does Sadhak Sahayak work offline?</h4>
+                            <p class="text-sadhak-textMuted text-sm">Yes, the app is 100% offline capable.</p>
+                        </div>
+                        <div class="p-6 rounded-3xl app-card space-y-2">
+                            <h4 class="font-bold text-sadhak-textDark">How does Mala counting work?</h4>
+                            <p class="text-sadhak-textMuted text-sm">108 Jap taps automatically form 1 completed Mala.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 11. DOWNLOAD PAGE
+        function renderDownloadView() {
+            return `
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10 text-center">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-sadhak-gold">Android Build</span>
+                        <h1 class="text-3xl sm:text-4xl font-bold text-sadhak-textDark">Download Sadhak Sahayak</h1>
+                    </div>
+
+                    <div class="p-8 rounded-3xl app-card space-y-6 text-left">
+                        <div class="flex items-center gap-4 border-b border-sadhak-cardBorder pb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-sadhak-goldLight border border-sadhak-cardBorder p-1 flex items-center justify-center">
+                                <svg viewBox="0 0 100 100" class="w-full h-full text-sadhak-gold fill-current">
+                                    <circle cx="50" cy="50" r="38" fill="none" stroke="#B88E4C" stroke-width="4" stroke-dasharray="1 7" stroke-linecap="round"/>
+                                    <circle cx="50" cy="80" r="6" fill="#B88E4C"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-sadhak-textDark">${CONFIG.APP_NAME}</h3>
+                                <p class="text-sadhak-textMuted text-xs">Version: ${CONFIG.APP_VERSION} • Size: ${CONFIG.APK_FILE_SIZE}</p>
+                            </div>
+                        </div>
+
+                        <a href="${CONFIG.APK_DOWNLOAD_URL}" download class="w-full py-4 rounded-2xl font-bold bg-sadhak-textDark text-sadhak-bg hover:bg-sadhak-gold transition shadow-md flex items-center justify-center gap-2">
+                            <i data-lucide="download" class="w-5 h-5"></i>
+                            <span>Download APK (${CONFIG.APK_FILE_SIZE})</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
